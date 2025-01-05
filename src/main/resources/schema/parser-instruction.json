@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ParserInstruction Schema",
+  "description": "Schema for ParserInstruction Object.",
+  "type": "object",
+  "properties": {
+    "fromFile": {
+      "description": "Stardew save file to read data from.",
+      "type": "string"
+    },
+    "toFile": {
+      "description": "Stardew save file to write data to.",
+      "type": "string"
+    },
+    "clearFarmers": {
+      "description": "Flag indicating if farmhands should be cleared in destination save before processing.",
+      "type": "boolean",
+      "default": false
+    },
+    "character": {
+      "type": "object",
+      "properties": {
+        "characterType": {
+          "type": "string",
+          "enum": [
+            "FARMER",
+            "PLAYER"
+          ]
+        },
+        "uid": {
+          "type": "string"
+        },
+        "copyAs": {
+          "type": "object",
+          "properties": {
+            "characterType": {
+              "type": "string",
+              "enum": [
+                "FARMER",
+                "PLAYER"
+              ]
+            },
+            "replace": {
+              "type": "object",
+              "properties": {
+                "uid": {
+                  "type": "string"
+                },
+                "characterType": {
+                  "type": "string",
+                  "enum": [
+                    "FARMER",
+                    "PLAYER"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "price"
+  ]
+}
