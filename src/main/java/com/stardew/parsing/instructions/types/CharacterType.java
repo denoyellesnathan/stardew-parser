@@ -1,5 +1,5 @@
 package com.stardew.parsing.instructions.types;
 
-public enum EntityType {
+public enum CharacterType {
     FARMER, PLAYER
 }

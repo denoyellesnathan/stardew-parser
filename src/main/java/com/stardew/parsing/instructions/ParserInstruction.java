@@ -14,5 +14,5 @@ public class ParserInstruction {
     private boolean clearFarmers;
     private String fromFile;
     private String toFile;
-    private Player player;
+    private Character character;
 }
