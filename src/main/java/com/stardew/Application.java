@@ -55,8 +55,11 @@ public class Application {
 
     public void writeToFile(Document document) {
         try {
+            File outDir = new File("generated");
+            outDir.mkdirs();
+
             DOMSource source = new DOMSource(document);
-            FileWriter writer = new FileWriter(new File("out"));
+            FileWriter writer = new FileWriter(new File(outDir, "out"));
             StreamResult result = new StreamResult(writer);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
