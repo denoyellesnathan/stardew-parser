@@ -37,6 +37,12 @@ public class Application {
         }
     }
 
+    /**
+     * Removes existing player from destination document to
+     * prepare to copy the source character.
+     *
+     * @param document XML document to remove player Node from.
+     */
     public void removePlayers(Document document) {
         NodeList players = document.getElementsByTagName("player");
         for (int i = 0; i < players.getLength(); i++) {
@@ -45,6 +51,12 @@ public class Application {
         }
     }
 
+    /**
+     * Copies player Nodes from srcDoc to destDoc.
+     *
+     * @param srcDoc  Document to copy player Node from.
+     * @param destDoc Document to copy player Node to.
+     */
     public void copyPlayers(Document srcDoc, Document destDoc) {
         NodeList players = srcDoc.getElementsByTagName("player");
         for (int i = 0; i < players.getLength(); i++) {
@@ -53,6 +65,11 @@ public class Application {
         }
     }
 
+    /**
+     * Saves XML Document to file.
+     *
+     * @param document Document to save.
+     */
     public void writeToFile(Document document) {
         try {
             File outDir = new File("generated");
