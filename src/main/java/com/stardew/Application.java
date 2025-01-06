@@ -16,16 +16,26 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class Application {
-    public Application(String parserInstructions) {
-        try {
+    public Application() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("-------------------------------------");
+            System.out.println("------------STARDEW PARSER-----------");
+            System.out.println("-------------------------------------");
+            System.out.println("Enter parser instructions location or press (Enter): ");
+            String parserInstructionsLocation = scanner.nextLine();
+            if (parserInstructionsLocation.isEmpty()) {
+                parserInstructionsLocation = "process.json";
+            }
+
             ObjectMapper mapper = new ObjectMapper();
-            ParserInstruction instruction = mapper.readValue(getClass().getClassLoader().getResourceAsStream(parserInstructions), ParserInstruction.class);
+            ParserInstruction instruction = mapper.readValue(new File(parserInstructionsLocation), ParserInstruction.class);
 
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document srcDoc = builder.parse(getClass().getClassLoader().getResourceAsStream(instruction.getFromFile()));
-            Document destDoc = builder.parse(getClass().getClassLoader().getResourceAsStream(instruction.getToFile()));
+            Document srcDoc = builder.parse(new File(instruction.getFromFile()));
+            Document destDoc = builder.parse(new File(instruction.getToFile()));
             srcDoc.getDocumentElement().normalize();
             destDoc.getDocumentElement().normalize();
 
@@ -40,7 +50,7 @@ public class Application {
             } else if (instruction.getCharacter().getCharacterType() == CharacterType.FARMER) {
                 copyFarmer(srcDoc, destDoc, instruction);
             }
-            writeToFile(destDoc);
+            writeToFile(destDoc, instruction);
 
             System.out.println("DONE");
         } catch (Exception err) {
@@ -49,7 +59,7 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        new Application(args[0]);
+        new Application();
     }
 
     /**
@@ -178,13 +188,13 @@ public class Application {
      *
      * @param document Document to save.
      */
-    public void writeToFile(Document document) {
+    public void writeToFile(Document document, ParserInstruction instruction) {
         try {
             File outDir = new File("generated");
             outDir.mkdirs();
 
             DOMSource source = new DOMSource(document);
-            FileWriter writer = new FileWriter(new File(outDir, "out"));
+            FileWriter writer = new FileWriter(new File(outDir, new File(instruction.getToFile()).getName()));
             StreamResult result = new StreamResult(writer);
 
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
