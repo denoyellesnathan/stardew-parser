@@ -1,11 +1,9 @@
 package com.stardew.parsing.instructions;
 
 import com.stardew.parsing.instructions.types.CharacterType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
