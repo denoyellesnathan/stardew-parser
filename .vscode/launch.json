@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "com.stardew.Application",
+            "projectName": "stardew-parser",
+            "javaExec": "C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin\\javaw.exe"
+        }
+    ]
+}
