@@ -42,43 +42,6 @@ public class Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        try (Scanner scanner = new Scanner(System.in)) {
-//            System.out.println("-------------------------------------");
-//            System.out.println("------------STARDEW PARSER-----------");
-//            System.out.println("-------------------------------------");
-//            System.out.println("Enter parser instructions location or press (Enter): ");
-//            String parserInstructionsLocation = scanner.nextLine();
-//            if (parserInstructionsLocation.isEmpty()) {
-//                parserInstructionsLocation = "process.json";
-//            }
-//
-//            ObjectMapper mapper = new ObjectMapper();
-//            ParserInstruction instruction = mapper.readValue(new File(parserInstructionsLocation), ParserInstruction.class);
-//
-//            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-//            Document srcDoc = builder.parse(new File(instruction.getFromFile()));
-//            Document destDoc = builder.parse(new File(instruction.getToFile()));
-//            srcDoc.getDocumentElement().normalize();
-//            destDoc.getDocumentElement().normalize();
-//
-//            if (instruction.isClearPlayers()) {
-//                removePlayers(destDoc);
-//            }
-//            if (instruction.isClearFarmers()) {
-//                removeFarmhands(destDoc);
-//            }
-//            if (instruction.getCharacter().getCharacterType() == CharacterType.PLAYER) {
-//                copyPlayer(srcDoc, destDoc, instruction);
-//            } else if (instruction.getCharacter().getCharacterType() == CharacterType.FARMER) {
-//                copyFarmer(srcDoc, destDoc, instruction);
-//            }
-//            writeToFile(destDoc, instruction);
-//
-//            System.out.println("DONE");
-//        } catch (Exception err) {
-//            err.printStackTrace();
-//        }
     }
 
     public static void main(String[] args) {
