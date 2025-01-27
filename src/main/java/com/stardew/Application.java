@@ -16,6 +16,7 @@ import com.stardew.gui.PasteInputDialog;
 import com.stardew.parsing.instructions.Character;
 import com.stardew.parsing.instructions.CopyAs;
 import com.stardew.parsing.instructions.ParserInstruction;
+import com.stardew.parsing.instructions.Replace;
 import com.stardew.parsing.instructions.types.CharacterType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -90,8 +91,7 @@ public class Application {
                 .setDescription("Choose an action")
                 .setCloseAutomaticallyOnAction(true)
                 .addAction("Copy Player -> Player", () -> playerToPlayer(gui))
-                .addAction("Copy Player -> Farmer", () -> {
-                })
+                .addAction("Copy Player -> Farmer", () -> playerToFarmerGui(gui))
                 .addAction("Copy Farmer -> Farmer", () -> {
                 }).build();
         mainMenu.addWindowListener(new WindowListenerAdapter() {
@@ -111,7 +111,24 @@ public class Application {
                     .replaceAll("\"", "").replaceAll("\\\\", "/");
             String destPath = new PasteInputDialog("Destination save file path.").show(gui)
                     .replaceAll("\"", "").replaceAll("\\\\", "/");
-            String uid = new PasteInputDialog("Player UID").show(gui);
+
+            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            Document srcDoc = builder.parse(new File(srcPath));
+            Document destDoc = builder.parse(new File(destPath));
+            srcDoc.getDocumentElement().normalize();
+            destDoc.getDocumentElement().normalize();
+
+            Node player = srcDoc.getElementsByTagName("player").item(0);
+            Optional<Node> uidNode = getUidNode(player);
+            String uid = "";
+            if (uidNode.isPresent()) {
+                uid = uidNode.get().getTextContent();
+                MessageDialog.showMessageDialog(gui, "UID", "Found Player UID of: " + uid, MessageDialogButton.OK);
+            } else {
+                uid = new PasteInputDialog("Destination save file path.")
+                        .show(gui).replaceAll("\"", "")
+                        .replaceAll("\\\\", "/");
+            }
 
             ParserInstruction instruction = ParserInstruction.builder()
                     .fromFile(srcPath)
@@ -127,12 +144,47 @@ public class Application {
                             .build())
                     .build();
 
+            copyPlayer(srcDoc, destDoc, instruction);
+            writeToFile(destDoc, instruction);
+            MessageDialog.showMessageDialog(gui, "Complete", "Character migration complete!", MessageDialogButton.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playerToFarmerGui(WindowBasedTextGUI gui) {
+        try {
+            String srcPath = new PasteInputDialog("Source save file path.").show(gui)
+                    .replaceAll("\"", "").replaceAll("\\\\", "/");
+            String destPath = new PasteInputDialog("Destination save file path.").show(gui)
+                    .replaceAll("\"", "").replaceAll("\\\\", "/");
+            String uid = new PasteInputDialog("Player UID").show(gui);
+            String farmerUid = new PasteInputDialog("Farmer UID").show(gui);
+
+            ParserInstruction instruction = ParserInstruction.builder()
+                    .fromFile(srcPath)
+                    .toFile(destPath)
+                    .clearFarmers(false)
+                    .clearPlayers(true)
+                    .character(Character.builder()
+                            .characterType(CharacterType.PLAYER)
+                            .uid(Long.parseLong(uid))
+                            .copyAs(CopyAs.builder()
+                                    .characterType(CharacterType.FARMER)
+                                    .replace(Replace.builder()
+                                            .characterType(CharacterType.FARMER)
+                                            .uid(Long.parseLong(farmerUid))
+                                            .build())
+                                    .build())
+                            .build())
+                    .build();
+
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document srcDoc = builder.parse(new File(instruction.getFromFile()));
             Document destDoc = builder.parse(new File(instruction.getToFile()));
             srcDoc.getDocumentElement().normalize();
             destDoc.getDocumentElement().normalize();
-            copyPlayer(srcDoc, destDoc, instruction);
+            playerToFarmhand(srcDoc, destDoc, instruction);
             writeToFile(destDoc, instruction);
             MessageDialog.showMessageDialog(gui, "Complete", "Character migration complete!", MessageDialogButton.OK);
         } catch (Exception e) {
