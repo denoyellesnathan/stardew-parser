@@ -1,3 +1,4 @@
 {
-    "editor.stickyScroll.enabled": false
+    "editor.stickyScroll.enabled": false,
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
