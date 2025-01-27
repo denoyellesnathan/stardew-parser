@@ -68,6 +68,12 @@ public class Application {
         mainMenu.showDialog(gui);
     }
 
+    /**
+     * Copies a player Node from srcDoc to destDoc.
+     *
+     * @param srcDoc  Document to copy player Node from.
+     * @param destDoc Document to copy player Node to.
+     */
     public void playerToPlayer(WindowBasedTextGUI gui) {
         try {
             String srcPath = new PasteInputDialog("Source save file path.").show(gui)
