@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.4-SNAPSHOT] - Unreleased
 ### Added
-- Added support for copying players and farmhands between save files.
+- When copying players or farmhands the application now automatically identifies the UnqiueMultiplayerID for each player and farmer.
+- List of available farmhand slots are now displayed to copy a player into.
+- Added support for copying players to farmhands between save files.
+- Added support for copying player between save files.
 - Implemented `PasteInputDialog` for user input through the terminal UI.
 - Added JSON schema validation for `ParserInstruction` objects.
 

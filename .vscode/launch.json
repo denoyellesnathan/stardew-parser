@@ -16,7 +16,8 @@
             "request": "launch",
             "mainClass": "com.stardew.Application",
             "projectName": "stardew-parser",
-            "javaExec": "C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin\\javaw.exe"
+            "javaExec": "C:\\Program Files\\Microsoft\\jdk-17.0.13.11-hotspot\\bin\\javaw.exe",
+            "console": "internalConsole"
         }
     ]
 }
